@@ -17,13 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from mainapp.views import UserModelViewSet
+from mainapp import views
 
 router = DefaultRouter()
 router.register('users', UserModelViewSet)
 
 urlpatterns = [
+    path('viewsets/', include(router.urls)),
+    path('views/api-view/', views.UserAPIVIew.as_view()),
+    path('generic/retrieve/<int:pk>/', views.UserRetrieveAPIView.as_view()),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('filters/kwargs/<str:name>/', views.ArticleKwargsFilterView.as_view())
 
 ]
